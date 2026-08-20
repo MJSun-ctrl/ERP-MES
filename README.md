@@ -1,111 +1,252 @@
-<p align="center">
-	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-dd77653d7c9f197dd9d93684f3c8dcfbab6.png">
-</p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi v4.8.3</h1>
-<h4 align="center">基于SpringBoot开发的轻量级Java快速开发框架</h4>
-<p align="center">
-	<a href="https://gitee.com/y_project/RuoYi/stargazers"><img src="https://gitee.com/y_project/RuoYi/badge/star.svg?theme=gvp"></a>
-	<a href="https://gitee.com/y_project/RuoYi"><img src="https://img.shields.io/badge/RuoYi-v4.8.3-brightgreen.svg"></a>
-	<a href="https://gitee.com/y_project/RuoYi/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
-</p>
+项目介绍
 
-## 平台简介
+本项目是一套面向离散制造企业的 ERP-MES 一体化生产管理平台，基于 RuoYi-Vue后台管理框架进行二次开发，结合制造企业生产管理流程，实现从订单、计划、生产执行到库存管理的数据闭环。
 
-一直想做一款后台管理系统，看了很多优秀的开源项目但是发现没有合适的。于是利用空闲休息时间开始自己写了一套后台系统。如此有了若依。她可以用于所有的Web应用程序，如网站管理后台，网站会员中心，CMS，CRM，OA。所有前端后台代码封装过后十分精简易上手，出错概率低。同时支持移动客户端访问。系统会陆续更新一些实用功能。
+项目模拟机械加工类制造企业业务场景，构建企业资源计划（ERP）与制造执行系统（MES）的协同管理流程，提高生产过程数字化和信息化水平。
 
-性别男，若依是给女儿取的名字（寓意：你若不离不弃，我必生死相依）
+系统主要包括：
 
-若依是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
+基础数据管理
+销售订单管理
+生产计划管理
+生产工单管理
+MES生产任务管理
+生产执行管理
+产品库存管理
+技术栈
+后端
+Java
+Spring Boot
+Spring MVC
+MyBatis
+MySQL
+Apache Maven
+前端
+Thymeleaf
+Bootstrap
+jQuery
+Bootstrap Table
+框架基础
+RuoYi后台管理框架
+RBAC权限管理
+Shiro权限控制
+系统功能
+1. ERP业务管理
+基础数据管理
 
-* 前端基于 [Hplus(H+)](https://gitee.com/hplus_admin/hplus) 后台主题 UI 框架。
-* 前后端分离版本，请移步[RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue)，微服务版本，请移步[RuoYi-Cloud](https://gitee.com/y_project/RuoYi-Cloud)
-* 阿里云折扣场：[点我进入](http://aly.ruoyi.vip)，腾讯云秒杀场：[点我进入](http://txy.ruoyi.vip)&nbsp;&nbsp;
+支持制造企业生产基础数据维护：
 
-## 版本分支
+产品信息管理
+物料信息管理
+BOM物料清单管理
+销售订单管理
 
-RuoYi 框架提供 Spring Boot 2.x / 3.x / 4.x 多版本分支的并行维护。
+实现销售订单录入与订单明细管理，为后续生产计划提供数据来源。
 
-| 名称              | 说明                      | 地址                                                |
-| :---------------- | :------------------------ | :-------------------------------------------------- |
-| master 默认分支   | Spring Boot 4.x (JDK 17+) | https://gitee.com/y_project/RuoYi                   |
-| springboot3 分支  | Spring Boot 3.x (JDK 17+) | https://gitee.com/y_project/RuoYi/tree/springboot3  |
-| springboot2 分支  | Spring Boot 2.x (JDK 8+)  | https://gitee.com/y_project/RuoYi/tree/springboot2  |
+生产计划管理
 
-## 内置功能
+根据订单需求制定生产计划，实现生产任务提前规划。
 
-1.  用户管理：用户是系统操作者，该功能主要完成系统用户配置。
-2.  部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。
-3.  岗位管理：配置系统用户所属担任职务。
-4.  菜单管理：配置系统菜单，操作权限，按钮权限标识等。
-5.  角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
-6.  字典管理：对系统中经常使用的一些较为固定的数据进行维护。
-7.  参数管理：对系统动态配置常用参数。
-8.  通知公告：系统通知公告信息发布维护。
-9.  操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
-10. 登录日志：系统登录日志记录查询包含登录异常。
-11. 在线用户：当前系统中活跃用户状态监控。
-12. 定时任务：在线（添加、修改、删除)任务调度包含执行结果日志。
-13. 代码生成：前后端代码的生成（java、html、xml、sql）支持CRUD下载 。
-14. 系统接口：根据业务代码自动生成相关的api接口文档。
-15. 服务监控：监视当前系统CPU、内存、磁盘、堆栈等相关信息。
-16. 缓存监控：对系统的缓存查询，删除、清空等操作。
-17. 在线构建器：拖动表单元素生成相应的HTML代码。
-18. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
+生产工单管理
 
-## 在线体验
+根据生产计划生成生产工单，并支持工单下达MES。
 
-- admin/admin123  
-- 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
+2. MES制造执行管理
+MES生产任务
 
-演示地址：http://ruoyi.vip  
-文档地址：http://doc.ruoyi.vip
+ERP生产工单下达后自动生成MES生产任务，实现ERP与MES之间的数据流转。
 
-## 演示图
+功能包括：
 
-<table>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-42e518aa72a24d228427a1261cb3679f395.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-7f20dd0edba25e5187c5c4dd3ec7d3d9797.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-2dae3d87f6a8ca05057db059cd9a411d51d.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-ea4d98423471e55fba784694e45d12bd4bb.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-7f6c6e9f5873efca09bd2870ee8468b8fce.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-c708b65f2c382a03f69fe1efa8d341e6cff.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-9ab586c47dd5c7b92bca0d727962c90e3b8.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-ef954122a2080e02013112db21754b955c6.png"/></td>
-    </tr>	 
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-088edb4d531e122415a1e2342bccb1a9691.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-f886fe19bd820c0efae82f680223cac196c.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-c7a2eb71fa65d6e660294b4bccca613d638.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-e60137fb0787defe613bd83331dc4755a70.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-7c51c1b5758f0a0f92ed3c60469b7526f9f.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-15181aed45bb2461aa97b594cbf2f86ea5f.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-83326ad52ea63f67233d126226738054d98.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-3bd6d31e913b70df00107db51d64ef81df7.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-70a2225836bc82042a6785edf6299e2586a.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-0184d6ab01fdc6667a14327fcaf8b46345d.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-64d8086dc2c02c8f71170290482f7640098.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png"/></td>
-    </tr>
-</table>
+MES任务生成
+任务状态管理
+生产任务查询
+生产执行
+
+支持生产现场执行流程：
+
+生产任务：
+
+待执行
+   ↓
+开始生产
+   ↓
+生产完成
+
+通过任务状态变化模拟制造现场生产过程。
+
+3. 库存管理
+
+实现生产完成后的库存自动入库。
+
+功能包括：
+
+产品库存查询
+产品库存数量维护
+生产完工自动生成入库记录
+入库记录追踪
+
+业务流程：
+
+MES生产完成
 
 
-## 若依交流群
+      ↓
 
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-1389287-blue.svg)](https://jq.qq.com/?_wv=1027&k=5HBAaYN)  [![加入QQ群](https://img.shields.io/badge/已满-1679294-blue.svg)](https://jq.qq.com/?_wv=1027&k=5cHeRVW)  [![加入QQ群](https://img.shields.io/badge/已满-1529866-blue.svg)](https://jq.qq.com/?_wv=1027&k=53R0L5Z)  [![加入QQ群](https://img.shields.io/badge/已满-1772718-blue.svg)](https://jq.qq.com/?_wv=1027&k=5g75dCU)  [![加入QQ群](https://img.shields.io/badge/已满-1366522-blue.svg)](https://jq.qq.com/?_wv=1027&k=58cPoHA)  [![加入QQ群](https://img.shields.io/badge/已满-1382251-blue.svg)](https://jq.qq.com/?_wv=1027&k=5Ofd4Pb)  [![加入QQ群](https://img.shields.io/badge/已满-1145125-blue.svg)](https://jq.qq.com/?_wv=1027&k=5yugASz)  [![加入QQ群](https://img.shields.io/badge/已满-86752435-blue.svg)](https://jq.qq.com/?_wv=1027&k=5Rf3d2P)  [![加入QQ群](https://img.shields.io/badge/已满-134072510-blue.svg)](https://jq.qq.com/?_wv=1027&k=5ZIjaeP)  [![加入QQ群](https://img.shields.io/badge/已满-210336300-blue.svg)](https://jq.qq.com/?_wv=1027&k=5CJw1jY)  [![加入QQ群](https://img.shields.io/badge/已满-339522636-blue.svg)](https://jq.qq.com/?_wv=1027&k=5omzbKc)  [![加入QQ群](https://img.shields.io/badge/已满-130035985-blue.svg)](https://jq.qq.com/?_wv=1027&k=qPIKBb7s)  [![加入QQ群](https://img.shields.io/badge/已满-143151071-blue.svg)](https://jq.qq.com/?_wv=1027&k=4NsjKbtU)  [![加入QQ群](https://img.shields.io/badge/已满-158781320-blue.svg)](https://jq.qq.com/?_wv=1027&k=VD2pkz2G)  [![加入QQ群](https://img.shields.io/badge/已满-201531282-blue.svg)](https://jq.qq.com/?_wv=1027&k=HlshFwkJ)  [![加入QQ群](https://img.shields.io/badge/已满-101526938-blue.svg)](https://jq.qq.com/?_wv=1027&k=0ARRrO9V)  [![加入QQ群](https://img.shields.io/badge/已满-264355400-blue.svg)](https://jq.qq.com/?_wv=1027&k=up9k3ZXJ)  [![加入QQ群](https://img.shields.io/badge/已满-298522656-blue.svg)](https://jq.qq.com/?_wv=1027&k=540WfdEr)  [![加入QQ群](https://img.shields.io/badge/已满-139845794-blue.svg)](https://jq.qq.com/?_wv=1027&k=ss91fC4t)  [![加入QQ群](https://img.shields.io/badge/已满-185760789-blue.svg)](https://jq.qq.com/?_wv=1027&k=Cqd66IKe) [![加入QQ群](https://img.shields.io/badge/已满-175104288-blue.svg)](https://jq.qq.com/?_wv=1027&k=7FplYUnR) [![加入QQ群](https://img.shields.io/badge/已满-174942938-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=lqMHu_5Fskm7H2S1vNAQTtzAUokVydwc&authKey=ptw0Fpch5pbNocML3CIJKKqZBaq2DI7cusKuzIgfMNiY3t9Pvd9hP%2BA8WYx3yaY1&noverify=0&group_code=174942938) [![加入QQ群](https://img.shields.io/badge/已满-287843737-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=blYlRDmwZXSXI5pVrPPU7ZJ1stFJ6Q2Q&authKey=ForGBWffHVlPt9NE3d7g4DoOIouBh%2BqvAj2lp1CLReHfZAUaK7SRrdwsChKpRJDJ&noverify=0&group_code=287843737) [![加入QQ群](https://img.shields.io/badge/已满-232896766-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=KTVAIhggR3rR3uZWK9A8kR4yYNREQ4jo&authKey=An4DUV9e7uK8I8VgBbp949z0ypQoDrOoqvVg%2FWOr2vuNNDMZUAMPvqHor6TFMIgz&noverify=0&group_code=232896766) [![加入QQ群](https://img.shields.io/badge/已满-180208928-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=XwhV8deuZXt__yteR1clNanVSXzA-ugq&authKey=ezgwKqEZPdP%2FgC9I03OBkJb%2Biii8yvVfwrcQuu0%2FL6ILXcRdHYDBFKCXeoeBT0E6&noverify=0&group_code=180208928) [![加入QQ群](https://img.shields.io/badge/已满-140284548-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=WqsGDxpGkqOPeWGOf3I32f_rXxdhqYNr&authKey=kvdF5df7PO9bzWxmixKhZN6ShsECBiuGUmmzTZBWVr2MVOfJ8%2F4oD0Gws0rbgYfz&noverify=0&group_code=140284548) [![加入QQ群](https://img.shields.io/badge/已满-177203794-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=z9z9jkkkinfAElKZk2FXqlN4XIXlXsMi&authKey=Sm9XMTV%2FFyANBrv9rVpMfMNcX4v1lVah3795O9VclQwU4DNzQcT5BLXTmTBouIkM&noverify=0&group_code=177203794) [![加入QQ群](https://img.shields.io/badge/112838778-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=XZN7fFlqEHXa9INTfhonNnhjSTdxhOgB&authKey=mttpzeqrsxBhQ4Z2jMPLa5T2i4QZBlFY1USqxYV08C6t3Fzq%2BnaB0GmWRbseHR%2FE&noverify=0&group_code=112838778)
+
+生成入库记录
+
+
+      ↓
+
+
+更新产品库存
+
+
+      ↓
+
+
+形成库存数据
+系统业务流程
+销售订单
+
+
+    ↓
+
+
+生产计划
+
+
+    ↓
+
+
+生产工单
+
+
+    ↓
+
+
+下达MES
+
+
+    ↓
+
+
+MES生产任务
+
+
+    ↓
+
+
+开始生产
+
+
+    ↓
+
+
+生产完成
+
+
+    ↓
+
+
+库存入库
+
+实现制造企业典型的：
+
+订单驱动生产 → 生产执行 → 产品入库
+
+业务闭环。
+
+项目特点
+1. 基于开源工业软件框架二次开发
+
+基于RuoYi框架进行模块扩展：
+
+新增制造管理业务模块
+扩展数据库结构
+开发Controller、Service、Mapper完整业务链路
+2. ERP与MES业务融合
+
+模拟企业信息系统与制造执行系统的数据交互流程：
+
+ERP负责订单与计划
+MES负责生产执行
+库存模块反馈生产结果
+3. 面向制造场景的数据建模
+
+设计制造企业核心业务数据：
+
+产品
+物料
+BOM
+工单
+MES任务
+库存
+入库记录
+项目截图
+登录页面
+
+首页
+
+生产工单管理
+
+MES生产任务
+
+库存管理
+
+项目运行
+环境要求
+软件	版本
+JDK	17
+Maven	3.9+
+MySQL	8.x
+Node.js	22.x
+数据库初始化
+
+执行：
+
+sql/ry_20260319.sql
+sql/manufacture.sql
+
+创建系统及制造业务数据。
+
+后端启动
+
+进入项目目录：
+
+mvn clean package
+
+启动：
+
+ruoyi-admin
+
+默认访问：
+
+http://localhost:8080
+项目结构
+ERP-MES
+
+
+├── ruoyi-admin
+│   └── Controller
+│
+├── ruoyi-system
+│   ├── domain
+│   ├── mapper
+│   └── service
+│
+├── sql
+│   └── manufacture.sql
+│
+└── README.md
+后续优化方向
+生产库存不足预警
+物料需求计划(MRP)
+设备数据采集
+IoT设备接入
+生产质量追溯
+数据可视化大屏
+项目说明
+
+本项目用于学习工业软件开发流程，模拟制造企业ERP-MES系统设计与实现。
