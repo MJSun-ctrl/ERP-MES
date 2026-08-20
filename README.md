@@ -1,6 +1,4 @@
-<img width="2236" height="1203" alt="MES生产任务" src="https://github.com/user-attachments/assets/021dc96b-49a9-403d-ae5a-405a1a3c8e36" /><img width="2236" height="1203" alt="MES生产任务" src="https://github.com/user-attachments/assets/52b7b4a0-b426-4927-a068-792fce38fd90" /><img width="2236" height="1203" alt="MES生产任务" src="https://github.com/user-attachments/assets/29178638-9db4-4e8f-b28b-5d1f1c3c7592" /><p align="center">
 
-<img alt="logo" src="此处替换为你的项目Logo图片地址">
 
 </p>
 
@@ -11,7 +9,7 @@
 
 
 <h4 align="center">
-基于 RuoYi 框架二次开发的离散制造企业数字化生产管理系统
+基于 RuoYi 框架二次开发的企业数字化生产管理系统
 </h4>
 
 
