@@ -1,4 +1,4 @@
-<p align="center">
+<img width="2236" height="1203" alt="MES生产任务" src="https://github.com/user-attachments/assets/021dc96b-49a9-403d-ae5a-405a1a3c8e36" /><img width="2236" height="1203" alt="MES生产任务" src="https://github.com/user-attachments/assets/52b7b4a0-b426-4927-a068-792fce38fd90" /><img width="2236" height="1203" alt="MES生产任务" src="https://github.com/user-attachments/assets/29178638-9db4-4e8f-b28b-5d1f1c3c7592" /><p align="center">
 
 <img alt="logo" src="此处替换为你的项目Logo图片地址">
 
@@ -334,35 +334,37 @@ ERP-MES
 ## 登录页面
 
 
-![登录页面]
+<img width="2229" height="1201" alt="登录页面" src="https://github.com/user-attachments/assets/b9dc9e2c-be90-4b8f-bb91-56410da17ec4" />
 
 
 ## 系统首页
 
 
-![系统首页]
+<img width="2233" height="1207" alt="首页" src="https://github.com/user-attachments/assets/a8da6c33-fa3a-4d64-a556-977556ebae8d" />
+
 
 
 
 ## 生产工单管理
 
 
-![生产工单]
+
+<img width="2234" height="1205" alt="下达工单" src="https://github.com/user-attachments/assets/bb1370b2-7662-4936-a743-8211778b78cf" />
+
 
 
 
 ## MES生产任务
 
 
-![MES生产任务]
 
+<img width="2236" height="1203" alt="MES生产任务" src="https://github.com/user-attachments/assets/7167461f-9e92-4561-bac5-1f4eace423e4" />
 
 
 ## 库存管理
 
 
-![库存管理]
-
+<img width="2235" height="1201" alt="库存管理" src="https://github.com/user-attachments/assets/ec144fa1-5ee3-4262-8c9b-8eb75751fb45" />
 
 
 ---
