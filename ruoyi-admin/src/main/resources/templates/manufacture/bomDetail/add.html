@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增物料清单明细')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-bomDetail-add">
+        <input name="bomId" type="hidden" th:value="${bomId}">
+        <div class="col-xs-12">
+<div class="form-group">
+
+<label class="col-sm-3 control-label">
+物料：
+</label>
+
+<div class="col-sm-8">
+
+<select name="materialId" class="form-control">
+
+<option value="">请选择物料</option>
+
+<option th:each="material:${materials}"
+        th:value="${material.materialId}"
+        th:text="${material.materialName}">
+</option>
+
+</select>
+
+</div>
+
+</div>
+</div>    
+        <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用量：</label>
+                    <div class="col-sm-8">
+                        <input name="quantity" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">单位：</label>
+                    <div class="col-sm-8">
+                        <input name="unit" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">备注：</label>
+                    <div class="col-sm-8">
+                        <textarea name="remark" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "manufacture/bomDetail"
+        $("#form-bomDetail-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-bomDetail-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

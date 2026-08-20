@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MesTaskMapper">
+    
+    <resultMap type="MesTask" id="MesTaskResult">
+        <result property="taskId"    column="task_id"    />
+        <result property="taskCode"    column="task_code"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName" column="product_name"/>
+        <result property="quantity"    column="quantity"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMesTaskVo">
+select 
+m.task_id,
+m.task_code,
+m.order_id,
+m.product_id,
+p.product_name,
+m.quantity,
+m.status,
+m.create_time,
+m.update_time,
+m.remark
+
+from mes_task m
+
+left join product p
+
+on m.product_id=p.product_id
+</sql>
+
+    <select id="selectMesTaskList" parameterType="MesTask" resultMap="MesTaskResult">
+        <include refid="selectMesTaskVo"/>
+        <where>  
+            <if test="taskCode != null  and taskCode != ''"> and task_code = #{taskCode}</if>
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectMesTaskByTaskId" parameterType="Long" resultMap="MesTaskResult">
+        <include refid="selectMesTaskVo"/>
+        where task_id = #{taskId}
+    </select>
+
+    <insert id="insertMesTask" parameterType="MesTask" useGeneratedKeys="true" keyProperty="taskId">
+        insert into mes_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskCode != null and taskCode != ''">task_code,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskCode != null and taskCode != ''">#{taskCode},</if>
+            <if test="orderId != null">#{orderId},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMesTask" parameterType="MesTask">
+        update mes_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskCode != null and taskCode != ''">task_code = #{taskCode},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <delete id="deleteMesTaskByTaskId" parameterType="Long">
+        delete from mes_task where task_id = #{taskId}
+    </delete>
+
+    <delete id="deleteMesTaskByTaskIds" parameterType="String">
+        delete from mes_task where task_id in 
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+
+</mapper>

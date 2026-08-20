@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('销售订单列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>订单编号：</label>
+                                <input type="text" name="orderCode"/>
+                            </li>
+                            <li>
+                                <label>客户名称：</label>
+                                <input type="text" name="customerName"/>
+                            </li>
+                            <li>
+                                <label>订单日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择订单日期" name="orderDate"/>
+                            </li>
+                            <li>
+                                <label>交货日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择交货日期" name="deliveryDate"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()">
+                                    <i class="fa fa-search"></i>&nbsp;搜索
+                                </a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()">
+                                    <i class="fa fa-refresh"></i>&nbsp;重置
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success"
+                   onclick="$.operate.add()"
+                   shiro:hasPermission="manufacture:salesOrder:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+
+                <a class="btn btn-primary single disabled"
+                   onclick="$.operate.edit()"
+                   shiro:hasPermission="manufacture:salesOrder:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+
+                <a class="btn btn-danger multiple disabled"
+                   onclick="$.operate.removeAll()"
+                   shiro:hasPermission="manufacture:salesOrder:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+
+                <a class="btn btn-warning"
+                   onclick="$.table.exportExcel()"
+                   shiro:hasPermission="manufacture:salesOrder:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:include="include :: footer" />
+
+    <script th:inline="javascript">
+
+        var editFlag = [[${@permission.hasPermi('manufacture:salesOrder:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('manufacture:salesOrder:remove')}]];
+        var prefix = ctx + "manufacture/salesOrder";
+
+        $(function() {
+
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "销售订单",
+
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'orderId',
+                    title: '订单ID',
+                    visible: false
+                },
+                {
+                    field: 'orderCode',
+                    title: '订单编号'
+                },
+                {
+                    field: 'customerName',
+                    title: '客户名称'
+                },
+                {
+                    field: 'orderDate',
+                    title: '订单日期'
+                },
+                {
+                    field: 'deliveryDate',
+                    title: '交货日期'
+                },
+                {
+                    field: 'status',
+                    title: '订单状态'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+
+                        var actions = [];
+
+                        /*
+                         * 查看订单明细
+                         */
+                        actions.push(
+                            '<a class="btn btn-info btn-xs" ' +
+                            'href="javascript:void(0)" ' +
+                            'onclick="openDetail(\'' + row.orderId + '\')">' +
+                            '<i class="fa fa-list"></i>明细</a> '
+                        );
+
+                        /*
+                         * 编辑订单
+                         */
+                        actions.push(
+                            '<a class="btn btn-success btn-xs ' + editFlag + '" ' +
+                            'href="javascript:void(0)" ' +
+                            'onclick="$.operate.edit(\'' + row.orderId + '\')">' +
+                            '<i class="fa fa-edit"></i>编辑</a> '
+                        );
+
+                        /*
+                         * 删除订单
+                         */
+                        actions.push(
+                            '<a class="btn btn-danger btn-xs ' + removeFlag + '" ' +
+                            'href="javascript:void(0)" ' +
+                            'onclick="$.operate.remove(\'' + row.orderId + '\')">' +
+                            '<i class="fa fa-remove"></i>删除</a>'
+                        );
+
+                        return actions.join('');
+                    }
+                }]
+            };
+
+            $.table.init(options);
+        });
+
+
+        /*
+         * 打开销售订单明细页面
+         *
+         * orderId 是当前销售订单的主键
+         */
+function openDetail(orderId) {
+
+    // 将当前销售订单ID传递给订单明细页面
+    var url = ctx + "manufacture/item?orderId=" + encodeURIComponent(orderId);
+
+    $.modal.openTab("订单明细", url);
+}
+
+    </script>
+</body>
+</html>

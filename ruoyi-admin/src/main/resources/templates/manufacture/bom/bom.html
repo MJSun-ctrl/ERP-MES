@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('物料清单列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>物料清单编号：</label>
+                                <input type="text" name="bomCode"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="manufacture:bom:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="manufacture:bom:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="manufacture:bom:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="manufacture:bom:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('manufacture:bom:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('manufacture:bom:remove')}]];
+        var prefix = ctx + "manufacture/bom";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "物料清单",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'bomId',
+                    title: '物料清单ID',
+                    visible: false
+                },
+{
+    field:'productName',
+    title:'产品名称'
+},
+                {
+                    field: 'bomCode',
+                    title: '物料清单编号'
+                },
+                {
+                    field: 'version',
+                    title: '版本号'
+                },
+                {
+                    field: 'status',
+                    title: '状态'
+                },
+                {
+                    field: 'effectiveDate',
+                    title: '生效日期'
+                },
+                {
+                    field: 'remark',
+                    title: ''
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+formatter: function(value, row, index) {
+    var actions = [];
+
+    // 查看BOM明细
+    actions.push(
+        '<a class="btn btn-info btn-xs" ' +
+        'href="javascript:void(0)" ' +
+        'onclick="openBomDetail(\'' + row.bomId + '\')">' +
+        '<i class="fa fa-list"></i>明细</a> '
+    );
+
+    // 编辑BOM
+    actions.push(
+        '<a class="btn btn-success btn-xs ' + editFlag + '" ' +
+        'href="javascript:void(0)" ' +
+        'onclick="$.operate.edit(\'' + row.bomId + '\')">' +
+        '<i class="fa fa-edit"></i>编辑</a> '
+    );
+
+    // 删除BOM
+    actions.push(
+        '<a class="btn btn-danger btn-xs ' + removeFlag + '" ' +
+        'href="javascript:void(0)" ' +
+        'onclick="$.operate.remove(\'' + row.bomId + '\')">' +
+        '<i class="fa fa-remove"></i>删除</a>'
+    );
+
+    return actions.join('');
+}
+
+                }]
+            };
+            $.table.init(options);
+        });
+        /**
+ * 打开BOM明细
+ */
+function openBomDetail(bomId)
+{
+    var url = ctx + "manufacture/bomDetail?bomId=" + bomId;
+
+    $.modal.openTab("BOM明细", url);
+}
+    </script>
+</body>
+</html>

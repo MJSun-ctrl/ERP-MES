@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.StockInMapper">
+    
+    <resultMap type="StockIn" id="StockInResult">
+        <result property="stockId"    column="stock_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="sourceTaskId"    column="source_task_id"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectStockInVo">
+        select stock_id, product_id, quantity, source_task_id, create_time from stock_in
+    </sql>
+
+    <select id="selectStockInList" parameterType="StockIn" resultMap="StockInResult">
+        <include refid="selectStockInVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="sourceTaskId != null "> and source_task_id = #{sourceTaskId}</if>
+        </where>
+    </select>
+    
+    <select id="selectStockInByStockId" parameterType="Long" resultMap="StockInResult">
+        <include refid="selectStockInVo"/>
+        where stock_id = #{stockId}
+    </select>
+
+    <insert id="insertStockIn" parameterType="StockIn" useGeneratedKeys="true" keyProperty="stockId">
+        insert into stock_in
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="sourceTaskId != null">source_task_id,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="sourceTaskId != null">#{sourceTaskId},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStockIn" parameterType="StockIn">
+        update stock_in
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="sourceTaskId != null">source_task_id = #{sourceTaskId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where stock_id = #{stockId}
+    </update>
+
+    <delete id="deleteStockInByStockId" parameterType="Long">
+        delete from stock_in where stock_id = #{stockId}
+    </delete>
+
+    <delete id="deleteStockInByStockIds" parameterType="String">
+        delete from stock_in where stock_id in 
+        <foreach item="stockId" collection="array" open="(" separator="," close=")">
+            #{stockId}
+        </foreach>
+    </delete>
+
+</mapper>

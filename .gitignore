@@ -35,6 +35,20 @@ dist/
 nbdist/
 .nb-gradle/
 
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+
 ######################################################################
 # Others
 *.log

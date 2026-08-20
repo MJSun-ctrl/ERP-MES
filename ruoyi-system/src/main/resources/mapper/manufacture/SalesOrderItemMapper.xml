@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruoyi.system.mapper.SalesOrderItemMapper">
+
+    <resultMap type="SalesOrderItem" id="SalesOrderItemResult">
+        <result property="itemId" column="item_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="quantity" column="quantity"/>
+        <result property="deliveryDate" column="delivery_date"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectSalesOrderItemVo">
+        select
+            soi.item_id,
+            soi.order_id,
+            soi.product_id,
+            p.product_name,
+            soi.quantity,
+            soi.delivery_date,
+            soi.remark,
+            soi.create_by,
+            soi.create_time,
+            soi.update_by,
+            soi.update_time
+        from sales_order_item soi
+        left join product p on soi.product_id = p.product_id
+    </sql>
+
+    <select id="selectSalesOrderItemList"
+            parameterType="SalesOrderItem"
+            resultMap="SalesOrderItemResult">
+        <include refid="selectSalesOrderItemVo"/>
+        <where>
+            <if test="orderId != null">
+                and soi.order_id = #{orderId}
+            </if>
+            <if test="productId != null">
+                and soi.product_id = #{productId}
+            </if>
+            <if test="quantity != null">
+                and soi.quantity = #{quantity}
+            </if>
+            <if test="deliveryDate != null">
+                and soi.delivery_date = #{deliveryDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSalesOrderItemByItemId"
+            parameterType="Long"
+            resultMap="SalesOrderItemResult">
+        <include refid="selectSalesOrderItemVo"/>
+        where soi.item_id = #{itemId}
+    </select>
+
+    <insert id="insertSalesOrderItem"
+            parameterType="SalesOrderItem"
+            useGeneratedKeys="true"
+            keyProperty="itemId">
+
+        insert into sales_order_item
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="deliveryDate != null">
+                delivery_date,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId},
+            </if>
+            <if test="productId != null">
+                #{productId},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="deliveryDate != null">
+                #{deliveryDate},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSalesOrderItem"
+            parameterType="SalesOrderItem">
+
+        update sales_order_item
+
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity},
+            </if>
+            <if test="deliveryDate != null">
+                delivery_date = #{deliveryDate},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </trim>
+
+        where item_id = #{itemId}
+    </update>
+
+    <delete id="deleteSalesOrderItemByItemId"
+            parameterType="Long">
+        delete from sales_order_item
+        where item_id = #{itemId}
+    </delete>
+
+    <delete id="deleteSalesOrderItemByItemIds"
+            parameterType="String">
+        delete from sales_order_item
+        where item_id in
+        <foreach item="itemId"
+                 collection="array"
+                 open="("
+                 separator=","
+                 close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+
+</mapper>

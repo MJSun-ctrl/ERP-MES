@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('物料清单明细列表')" />
+</head>
+
+<body class="gray-bg">
+
+<div class="container-div">
+
+    <div class="row">
+
+        <!-- 查询区域 -->
+        <div class="col-sm-12 search-collapse">
+
+            <form id="formId">
+
+                <!-- 当前BOM ID -->
+                <input type="hidden"
+                       name="bomId"
+                       th:value="${bomId}"/>
+
+                <div class="select-list">
+
+                    <ul>
+
+                        <li>
+                            <label>物料名称：</label>
+                            <input type="text"
+                                   name="materialName"/>
+                        </li>
+
+                        <li>
+
+                            <a class="btn btn-primary btn-rounded btn-sm"
+                               onclick="$.table.search()">
+
+                                <i class="fa fa-search"></i>
+                                &nbsp;搜索
+
+                            </a>
+
+                            <a class="btn btn-warning btn-rounded btn-sm"
+                               onclick="$.form.reset()">
+
+                                <i class="fa fa-refresh"></i>
+                                &nbsp;重置
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- 工具栏 -->
+        <div class="btn-group-sm"
+             id="toolbar"
+             role="group">
+
+            <a class="btn btn-success"
+               onclick="addBomDetail()"
+               shiro:hasPermission="manufacture:bomDetail:add">
+
+                <i class="fa fa-plus"></i>
+                添加
+
+            </a>
+
+
+            <a class="btn btn-primary single disabled"
+               onclick="$.operate.edit()"
+               shiro:hasPermission="manufacture:bomDetail:edit">
+
+                <i class="fa fa-edit"></i>
+                修改
+
+            </a>
+
+
+            <a class="btn btn-danger multiple disabled"
+               onclick="$.operate.removeAll()"
+               shiro:hasPermission="manufacture:bomDetail:remove">
+
+                <i class="fa fa-remove"></i>
+                删除
+
+            </a>
+
+
+            <a class="btn btn-warning"
+               onclick="$.table.exportExcel()"
+               shiro:hasPermission="manufacture:bomDetail:export">
+
+                <i class="fa fa-download"></i>
+                导出
+
+            </a>
+
+        </div>
+
+
+        <!-- 表格 -->
+        <div class="col-sm-12 select-table table-striped">
+
+            <table id="bootstrap-table"></table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<th:block th:include="include :: footer" />
+
+
+<script th:inline="javascript">
+
+    var editFlag =
+        [[${@permission.hasPermi('manufacture:bomDetail:edit')}]];
+
+    var removeFlag =
+        [[${@permission.hasPermi('manufacture:bomDetail:remove')}]];
+
+    var prefix =
+        ctx + "manufacture/bomDetail";
+
+
+    // 当前BOM ID
+    var bomId =
+        [[${bomId}]];
+
+
+    $(function() {
+
+        var options = {
+
+            /*
+             * 查询当前BOM的明细
+             */
+            url: prefix + "/list",
+
+            /*
+             * 新增地址
+             * bomId 会由 addBomDetail() 自动传递
+             */
+            createUrl: prefix + "/add?bomId=" + bomId,
+
+            updateUrl: prefix + "/edit/{id}",
+
+            removeUrl: prefix + "/remove",
+
+            exportUrl: prefix + "/export",
+
+            modalName: "物料清单明细",
+
+
+            columns: [
+
+                {
+                    checkbox: true
+                },
+
+
+                {
+                    field: 'detailId',
+                    title: '明细ID',
+                    visible: false
+                },
+
+
+                {
+                    field: 'bomId',
+                    title: '物料清单ID',
+                    visible: false
+                },
+
+
+                {
+                    field: 'materialName',
+                    title: '物料名称'
+                },
+
+
+                {
+                    field: 'quantity',
+                    title: '用量'
+                },
+
+
+                {
+                    field: 'unit',
+                    title: '单位'
+                },
+
+
+                {
+                    field: 'remark',
+                    title: '备注'
+                },
+
+
+                {
+                    title: '操作',
+                    align: 'center',
+
+                    formatter: function(value, row, index) {
+
+                        var actions = [];
+
+
+                        actions.push(
+                            '<a class="btn btn-success btn-xs ' +
+                            editFlag +
+                            '" href="javascript:void(0)" ' +
+                            'onclick="$.operate.edit(\'' +
+                            row.detailId +
+                            '\')">' +
+                            '<i class="fa fa-edit"></i>编辑</a> '
+                        );
+
+
+                        actions.push(
+                            '<a class="btn btn-danger btn-xs ' +
+                            removeFlag +
+                            '" href="javascript:void(0)" ' +
+                            'onclick="$.operate.remove(\'' +
+                            row.detailId +
+                            '\')">' +
+                            '<i class="fa fa-remove"></i>删除</a>'
+                        );
+
+
+                        return actions.join('');
+                    }
+                }
+
+            ]
+
+        };
+
+
+        $.table.init(options);
+
+    });
+
+
+    /*
+     * 新增BOM明细
+     *
+     * 自动把当前BOM ID传递给新增页面
+     */
+    function addBomDetail() {
+
+        var url =
+            prefix + "/add?bomId=" + bomId;
+
+        $.modal.open(
+            "新增物料清单明细",
+            url
+        );
+    }
+
+</script>
+
+</body>
+</html>

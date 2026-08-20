@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改物料清单明细')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-bomDetail-edit" th:object="${bomDetail}">
+            <input name="bomId" 
+       th:field="*{bomId}" 
+       type="hidden">
+            <input name="detailId" th:field="*{detailId}" type="hidden">
+            <select name="materialId" class="form-control">
+
+<option th:each="material:${materials}"
+        th:value="${material.materialId}"
+        th:text="${material.materialName}"
+        th:selected="${material.materialId==bomDetail.materialId}">
+</option>
+
+</select>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用量：</label>
+                    <div class="col-sm-8">
+                        <input name="quantity" th:field="*{quantity}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">单位：</label>
+                    <div class="col-sm-8">
+                        <input name="unit" th:field="*{unit}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">备注：</label>
+                    <div class="col-sm-8">
+                        <textarea name="remark" class="form-control">[[*{remark}]]</textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "manufacture/bomDetail";
+        $("#form-bomDetail-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-bomDetail-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

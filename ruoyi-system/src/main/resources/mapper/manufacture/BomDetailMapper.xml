@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BomDetailMapper">
+    
+    <resultMap type="BomDetail" id="BomDetailResult">
+        <result property="detailId"    column="detail_id"    />
+        <result property="bomId"    column="bom_id"    />
+        <result property="materialId"    column="material_id"    />
+        <result property="materialName" column="material_name"/>
+        <result property="quantity"    column="quantity"    />
+        <result property="unit"    column="unit"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+<sql id="selectBomDetailVo">
+    select 
+        bd.detail_id,
+        bd.bom_id,
+        bd.material_id,
+        m.material_name,
+        bd.quantity,
+        bd.unit,
+        bd.remark
+    from bom_detail bd
+    left join material m 
+    on bd.material_id = m.material_id
+</sql>
+
+    <select id="selectBomDetailList" parameterType="BomDetail" resultMap="BomDetailResult">
+        <include refid="selectBomDetailVo"/>
+        <where>  
+            <if test="bomId != null "> and bom_id = #{bomId}</if>
+            <if test="materialId != null "> and material_id = #{materialId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBomDetailByDetailId" parameterType="Long" resultMap="BomDetailResult">
+        <include refid="selectBomDetailVo"/>
+        where detail_id = #{detailId}
+    </select>
+
+    <insert id="insertBomDetail" parameterType="BomDetail" useGeneratedKeys="true" keyProperty="detailId">
+        insert into bom_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bomId != null">bom_id,</if>
+            <if test="materialId != null">material_id,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="unit != null">unit,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bomId != null">#{bomId},</if>
+            <if test="materialId != null">#{materialId},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBomDetail" parameterType="BomDetail">
+        update bom_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bomId != null">bom_id = #{bomId},</if>
+            <if test="materialId != null">material_id = #{materialId},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where detail_id = #{detailId}
+    </update>
+
+    <delete id="deleteBomDetailByDetailId" parameterType="Long">
+        delete from bom_detail where detail_id = #{detailId}
+    </delete>
+
+    <delete id="deleteBomDetailByDetailIds" parameterType="String">
+        delete from bom_detail where detail_id in 
+        <foreach item="detailId" collection="array" open="(" separator="," close=")">
+            #{detailId}
+        </foreach>
+    </delete>
+
+</mapper>

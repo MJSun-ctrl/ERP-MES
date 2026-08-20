@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('生产工单列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>工单编号：</label>
+                                <input type="text" name="orderCode"/>
+                            </li>
+                            <li>
+                                <label>来源生产计划ID：</label>
+                                <input type="text" name="planId"/>
+                            </li>
+                            <li>
+                                <label>产品ID：</label>
+                                <input type="text" name="productId"/>
+                            </li>
+                            <li>
+                                <label>生产数量：</label>
+                                <input type="text" name="quantity"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="manufacture:order:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="manufacture:order:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="manufacture:order:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="manufacture:order:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('manufacture:order:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('manufacture:order:remove')}]];
+        var prefix = ctx + "manufacture/order";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "生产工单",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'orderId',
+                    title: '工单ID',
+                    visible: false
+                },
+                {
+                    field: 'orderCode',
+                    title: '工单编号'
+                },
+{
+ field:'planCode',
+ title:'来源生产计划'
+},
+{
+ field:'productName',
+ title:'产品名称'
+},
+                {
+                    field: 'quantity',
+                    title: '生产数量'
+                },
+                {
+                    field: 'status',
+                    title: '状态 0待下达 1已下达MES 2生产中 3完成'
+                },
+                {
+                    field: 'remark',
+                    title: ''
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+        // 状态0：待下达MES时显示按钮
+        if(row.status == "0")
+        {
+            actions.push(
+                '<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="sendMES(\'' 
+                + row.orderId +
+                '\')">' +
+                '<i class="fa fa-send"></i>下达MES</a> '
+            );
+        }
+
+
+        actions.push(
+            '<a class="btn btn-success btn-xs ' 
+            + editFlag +
+            '" href="javascript:void(0)" onclick="$.operate.edit(\'' 
+            + row.orderId +
+            '\')">' +
+            '<i class="fa fa-edit"></i>编辑</a> '
+        );
+
+
+        actions.push(
+            '<a class="btn btn-danger btn-xs ' 
+            + removeFlag +
+            '" href="javascript:void(0)" onclick="$.operate.remove(\'' 
+            + row.orderId +
+            '\')">' +
+            '<i class="fa fa-remove"></i>删除</a>'
+        );
+
+
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+
+        });
+                    function sendMES(orderId)
+{
+    $.modal.confirm(
+        "确认下达MES吗？",
+        function(){
+
+            $.operate.post(
+                prefix + "/sendMES/" + orderId,
+                {},
+                function(result){
+
+                    $.modal.msgSuccess(result.msg);
+
+                    $.table.refresh();
+
+                }
+            );
+
+        }
+    );
+}
+    </script>
+</body>
+</html>
